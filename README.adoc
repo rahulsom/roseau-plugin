@@ -1,0 +1,50 @@
+= Roseau Gradle Plugin
+
+image:https://img.shields.io/github/commits-since/rahulsom/roseau-plugin/latest?style=for-the-badge[GitHub commits since latest release, link="https://github.com/rahulsom/roseau-plugin/releases/new"]
+
+This is a Gradle plugin for https://github.com/alien-tools/roseau[Roseau].
+Roseau computes differences between two versions of a software project and generates a report of the changes.
+
+== Setup
+
+In your `build.gradle.kts` file, add the following to the `plugins` block:
+
+[source,kotlin]
+----
+plugins {
+    id("com.github.rahulsom.roseau").apply(false)
+}
+----
+
+== Usage
+
+Run this command.
+
+[source,sh]
+----
+./gradlew roseau
+----
+
+This will use your configured `repositories` to find the `latest.release` for your project.
+Then it will compute the differences between the current version and the latest release and generate a report in `build/reports/roseau`.
+
+By default, it will generate all formats of reports that roseau supports.
+
+* HTML
+* JSON
+* Markdown
+* CSV
+* CLI Output
+
+You can turn these off individually by setting these properties in your `build.gradle.kts` file.
+
+[source,kotlin]
+----
+roseau {
+    html = false
+    json = false
+    markdown = false
+    csv = false
+    cli = false
+}
+----

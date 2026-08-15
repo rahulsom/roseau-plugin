@@ -1,0 +1,8 @@
+[versions]
+assertj = "3.27.7"
+
+[libraries]
+assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.4.0" }

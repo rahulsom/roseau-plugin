@@ -1,6 +1,9 @@
+import com.adarshr.gradle.testlogger.theme.ThemeType
+
 plugins {
     `java-gradle-plugin`
     alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.testLogger)
 }
 
 repositories {
@@ -46,4 +49,8 @@ tasks.named<Task>("check") {
 dependencies {
     testImplementation(libs.assertj)
     "functionalTestImplementation"(libs.assertj)
+}
+
+testlogger {
+    theme = ThemeType.MOCHA
 }

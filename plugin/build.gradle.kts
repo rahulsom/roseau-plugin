@@ -2,6 +2,7 @@ import com.adarshr.gradle.testlogger.theme.ThemeType
 
 plugins {
     `java-gradle-plugin`
+    alias(libs.plugins.gradlePublish)
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.testLogger)
 }
@@ -53,4 +54,14 @@ dependencies {
 
 testlogger {
     theme = ThemeType.MOCHA
+}
+
+listOf("final", "candidate").forEach { taskName ->
+    rootProject.tasks.named(taskName).configure {
+        dependsOn(tasks.named("publishPlugins"))
+    }
+}
+
+tasks.named("publishPlugins").configure {
+    mustRunAfter("check")
 }

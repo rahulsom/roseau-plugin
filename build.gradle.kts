@@ -3,5 +3,5 @@ plugins {
 }
 
 allprojects {
-    group = "com.github.rahulsom"
+    group = "io.github.rahulsom"
 }

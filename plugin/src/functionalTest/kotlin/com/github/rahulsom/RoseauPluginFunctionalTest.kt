@@ -26,7 +26,7 @@ class RoseauPluginFunctionalTest {
             @Language("kotlin")
             """
             plugins {
-                id("com.github.rahulsom.roseau")
+                id("io.github.rahulsom.roseau")
                 id("java")
             }
             repositories {

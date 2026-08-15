@@ -36,7 +36,7 @@ testing {
 
 gradlePlugin {
     val roseau = plugins.create("roseau") {
-        id = "com.github.rahulsom.roseau"
+        id = "io.github.rahulsom.roseau"
         implementationClass = "com.github.rahulsom.RoseauPlugin"
         displayName = "Roseau Plugin"
         description = "Analyzes binary compatibility of Java libraries using Roseau."

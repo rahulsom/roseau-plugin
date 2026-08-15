@@ -38,7 +38,12 @@ gradlePlugin {
     val roseau = plugins.create("roseau") {
         id = "com.github.rahulsom.roseau"
         implementationClass = "com.github.rahulsom.RoseauPlugin"
+        displayName = "Roseau Plugin"
+        description = "Analyzes binary compatibility of Java libraries using Roseau."
+        tags.set(mutableSetOf("roseau", "binary-compatibility", "java"))
     }
+    website.set("https://github.com/rahulsom/roseau-plugin")
+    vcsUrl.set("https://github.com/rahulsom/roseau-plugin.git")
 }
 
 gradlePlugin.testSourceSets.add(sourceSets["functionalTest"])

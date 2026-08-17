@@ -4,9 +4,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.gradle.api.tasks.JavaExec
 import org.gradle.testfixtures.ProjectBuilder
 import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
 
 class RoseauPluginTest {
 
@@ -28,27 +25,27 @@ class RoseauPluginTest {
         project.plugins.apply("io.github.rahulsom.roseau")
 
         val roseauTask = project.tasks.findByName("roseau") as? JavaExec
-        assertNotNull(roseauTask)
-        assertEquals("io.github.alien.roseau.cli.RoseauCLI", roseauTask.mainClass.get())
+        assertThat(roseauTask).isNotNull()
+        assertThat(roseauTask?.mainClass?.get()).isEqualTo("io.github.alien.roseau.cli.RoseauCLI")
 
         val roseauCheckTask = project.tasks.findByName("roseauCheck") as? JavaExec
-        assertNotNull(roseauCheckTask)
-        assertEquals("io.github.alien.roseau.cli.RoseauCLI", roseauCheckTask.mainClass.get())
+        assertThat(roseauCheckTask).isNotNull()
+        assertThat(roseauCheckTask?.mainClass?.get()).isEqualTo("io.github.alien.roseau.cli.RoseauCLI")
 
         val config = project.configurations.findByName("roseau")
-        assertNotNull(config)
-        assertThat(roseauTask.classpath).containsAll(config)
-        assertThat(roseauCheckTask.classpath).containsAll(config)
+        assertThat(config).isNotNull()
+        assertThat(roseauTask?.classpath).containsAll(config)
+        assertThat(roseauCheckTask?.classpath).containsAll(config)
 
         val jarTask = project.tasks.findByName("jar")
-        assertThat(roseauTask.taskDependencies.getDependencies(roseauTask)).contains(jarTask)
-        assertThat(roseauCheckTask.taskDependencies.getDependencies(roseauCheckTask)).contains(jarTask)
+        assertThat(roseauTask?.taskDependencies?.getDependencies(roseauTask)).contains(jarTask)
+        assertThat(roseauCheckTask?.taskDependencies?.getDependencies(roseauCheckTask)).contains(jarTask)
 
-        val dependency = config.dependencies.firstOrNull()
-        assertNotNull(dependency)
-        assertEquals("io.github.alien-tools", dependency.group)
-        assertEquals("roseau-cli", dependency.name)
-        assertEquals("0.6.0", dependency.version)
+        val dependency = config?.dependencies?.firstOrNull()
+        assertThat(dependency).isNotNull()
+        assertThat(dependency?.group).isEqualTo("io.github.alien-tools")
+        assertThat(dependency?.name).isEqualTo("roseau-cli")
+        assertThat(dependency?.version).isEqualTo("0.6.0")
     }
 
     @Test
@@ -57,15 +54,15 @@ class RoseauPluginTest {
         project.plugins.apply("io.github.rahulsom.roseau")
 
         val extension = project.extensions.findByType(RoseauExtension::class.java)
-        assertNotNull(extension)
-        assertEquals("0.6.0", extension.version.get())
-        assertEquals(RoseauExtension.VerbosityLevel.NONE, extension.verbosity.get())
-        assertTrue(extension.html.get())
-        assertTrue(extension.csv.get())
-        assertTrue(extension.md.get())
-        assertTrue(extension.cli.get())
-        assertTrue(extension.json.get())
-        assertEquals(false, extension.plain.get())
+        assertThat(extension).isNotNull()
+        assertThat(extension?.version?.get()).isEqualTo("0.6.0")
+        assertThat(extension?.verbosity?.get()).isEqualTo(RoseauExtension.VerbosityLevel.NONE)
+        assertThat(extension?.html?.get()).isTrue()
+        assertThat(extension?.csv?.get()).isTrue()
+        assertThat(extension?.md?.get()).isTrue()
+        assertThat(extension?.cli?.get()).isTrue()
+        assertThat(extension?.json?.get()).isTrue()
+        assertThat(extension?.plain?.get()).isFalse()
     }
 
     @Test
@@ -78,7 +75,7 @@ class RoseauPluginTest {
         executeDoFirst(task)
 
         val args = task.args
-        assertNotNull(args)
+        assertThat(args).isNotNull()
         assertThat(args).containsSequence("--diff")
         assertThat(args).contains("--v1", "--v2", "--v1-classpath", "--v2-classpath")
         assertThat(args).contains(
@@ -106,7 +103,7 @@ class RoseauPluginTest {
         executeDoFirst(task)
 
         val args = task.args
-        assertNotNull(args)
+        assertThat(args).isNotNull()
         assertThat(args).containsSubsequence("--diff", "--fail-on-bc")
     }
 
@@ -218,9 +215,7 @@ class RoseauPluginTest {
             RoseauExtension.VerbosityLevel.SOME,
             RoseauExtension.VerbosityLevel.VERBOSE,
         )
-        assertEquals(
-            RoseauExtension.VerbosityLevel.SOME,
-            RoseauExtension.VerbosityLevel.valueOf("SOME"),
-        )
+        assertThat(RoseauExtension.VerbosityLevel.valueOf("SOME"))
+            .isEqualTo(RoseauExtension.VerbosityLevel.SOME)
     }
 }

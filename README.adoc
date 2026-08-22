@@ -44,10 +44,33 @@ You can turn these off individually by setting these properties in your `build.g
 [source,kotlin]
 ----
 roseau {
-    html = false
-    json = false
-    markdown = false
-    csv = false
-    cli = false
+    html.set(false)
+    json.set(false)
+    md.set(false)
+    csv.set(false)
+    cli.set(false)
 }
 ----
+
+You can also configure the `roseau` version to use.
+
+[source,kotlin]
+----
+roseau {
+    version.set("0.6.0") // <1>
+}
+----
+<1> This is set to a version that is compatible with the plugin by default.
+
+You can choose the verbosity of the output.
+
+[source,kotlin]
+----
+import com.github.rahulsom.RoseauExtension
+
+roseau {
+    verbosity.set(RoseauExtension.VerbosityLevel.NONE) // <1>
+}
+----
+
+<1> Verbosity levels are `NONE`, `SOME`, and `VERBOSE`.

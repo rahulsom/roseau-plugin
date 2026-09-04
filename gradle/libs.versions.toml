@@ -1,7 +1,7 @@
 [versions]
 assertj = "3.27.7"
 gradlePublish = "2.1.1"
-nebulaRelease = "21.1.0"
+nebulaRelease = "21.1.1"
 testLogger = "4.0.0"
 
 [libraries]

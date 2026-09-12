@@ -208,6 +208,60 @@ class RoseauPluginTest {
     }
 
     @Test
+    fun `computeArgs generates roseau yaml from excludeNames`() {
+        val project = createProject()
+        project.plugins.apply("java")
+        project.plugins.apply("io.github.rahulsom.roseau")
+
+        val extension = project.extensions.getByType(RoseauExtension::class.java)
+        extension.excludeNames.set(listOf(".*\\$.*Converter"))
+
+        val task = project.tasks.getByName("roseau") as JavaExec
+        executeDoFirst(task)
+
+        val configFile = project.layout.buildDirectory.get().asFile.resolve("reports/roseau/roseau.yaml")
+        assertThat(task.args).contains("--config", configFile.toString())
+        assertThat(configFile).exists()
+        assertThat(configFile.readText())
+            .contains("common:")
+            .contains("excludes:")
+            .contains("names:")
+            .contains(".*\\\\\$.*Converter")
+    }
+
+    @Test
+    fun `computeArgs without excludeNames omits config`() {
+        val project = createProject()
+        project.plugins.apply("java")
+        project.plugins.apply("io.github.rahulsom.roseau")
+
+        val task = project.tasks.getByName("roseau") as JavaExec
+        executeDoFirst(task)
+
+        assertThat(task.args).doesNotContain("--config")
+    }
+
+    @Test
+    fun `computeArgs prefers explicit config file over excludeNames`() {
+        val project = createProject()
+        project.plugins.apply("java")
+        project.plugins.apply("io.github.rahulsom.roseau")
+
+        val extension = project.extensions.getByType(RoseauExtension::class.java)
+        extension.excludeNames.set(listOf(".*\\$.*Converter"))
+        val userConfig = project.layout.projectDirectory.file("my-roseau.yaml").asFile
+        userConfig.writeText("common: {}")
+        extension.config.set(userConfig)
+
+        val task = project.tasks.getByName("roseau") as JavaExec
+        executeDoFirst(task)
+
+        assertThat(task.args).contains("--config", userConfig.toString())
+        val generated = project.layout.buildDirectory.get().asFile.resolve("reports/roseau/roseau.yaml")
+        assertThat(generated).doesNotExist()
+    }
+
+    @Test
     fun `verbosity level enum values`() {
         val values = RoseauExtension.VerbosityLevel.values()
         assertThat(values).containsExactly(

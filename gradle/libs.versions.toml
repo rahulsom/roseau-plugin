@@ -9,6 +9,6 @@ assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
 
 [plugins]
 gradlePublish = { id = "com.gradle.plugin-publish", version.ref = "gradlePublish" }
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.4.20" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.3.0" }
 nebulaRelease = { id = "nebula.release", version.ref = "nebulaRelease" }
 testLogger = { id = "com.adarshr.test-logger", version.ref = "testLogger" }

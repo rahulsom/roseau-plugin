@@ -49,3 +49,13 @@ jobs:
           GRADLE_PUBLISH_SECRET: ${{ secrets.GRADLE_PUBLISH_SECRET }}
         run: |
           ./gradlew -Prelease.useLastTag=true build final --stacktrace --scan
+
+  build-result:
+    name: Build
+    needs: build
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check matrix status
+        if: contains(needs.build.result, 'failure') || contains(needs.build.result, 'cancelled')
+        run: exit 1

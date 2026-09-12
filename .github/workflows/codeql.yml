@@ -50,3 +50,13 @@ jobs:
       uses: github/codeql-action/analyze@b96794f015dfd88f77b49b1c93e0fa7110f94c63 # v4
       with:
         category: "/language:${{matrix.language}}"
+
+  analyze-result:
+    name: Analyze
+    needs: analyze
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check matrix status
+        if: contains(needs.analyze.result, 'failure') || contains(needs.analyze.result, 'cancelled')
+        run: exit 1

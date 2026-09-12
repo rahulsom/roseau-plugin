@@ -1,6 +1,8 @@
 package com.github.rahulsom
 
 import org.gradle.api.Project
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
 
 open class RoseauExtension(
@@ -61,4 +63,20 @@ open class RoseauExtension(
      * Whether to generate plain text report to console. Defaults to false, i.e. ANSI-colored output.
      */
     var plain = project.objects.property(Boolean::class.java).convention(false)
+
+    /**
+     * Path to a user-authored `roseau.yaml` file, passed to the CLI via `--config`.
+     * If set, this takes precedence over [excludeNames]: the file is used as-is.
+     */
+    var config: RegularFileProperty = project.objects.fileProperty()
+
+    /**
+     * Regex patterns of API names (types, methods, fields) to exclude from analysis, e.g. to
+     * suppress noise from generated code. Written into a generated `roseau.yaml`'s
+     * `common.excludes.names` section, unless [config] is set. Defaults to empty.
+     */
+    var excludeNames: ListProperty<String> =
+        project.objects
+            .listProperty(String::class.java)
+            .convention(emptyList())
 }

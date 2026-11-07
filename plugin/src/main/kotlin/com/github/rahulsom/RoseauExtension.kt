@@ -19,9 +19,10 @@ open class RoseauExtension(
 
     private companion object {
         val defaultRoseauVersion: String =
-            Properties().apply {
-                RoseauExtension::class.java.getResourceAsStream("roseau.properties")!!.use { load(it) }
-            }.getProperty("version")
+            Properties()
+                .apply {
+                    RoseauExtension::class.java.getResourceAsStream("roseau.properties")!!.use { load(it) }
+                }.getProperty("version")
     }
 
     enum class VerbosityLevel {

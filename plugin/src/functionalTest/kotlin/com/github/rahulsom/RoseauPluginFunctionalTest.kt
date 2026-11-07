@@ -14,6 +14,29 @@ class RoseauPluginFunctionalTest {
     private val buildFile by lazy { projectDir.resolve("build.gradle.kts") }
     private val settingsFile by lazy { projectDir.resolve("settings.gradle.kts") }
 
+    @Test fun `default version is packaged for builds without a version catalog`() {
+        settingsFile.writeText("rootProject.name = \"consumer\"")
+        buildFile.writeText(
+            """
+            plugins {
+                id("io.github.rahulsom.roseau")
+            }
+            tasks.register("verifyVersion") {
+                doLast {
+                    check(roseau.version.get() == "${System.getProperty("expectedRoseauVersion")}")
+                    check(configurations["roseau"].dependencies.single().version == roseau.version.get())
+                }
+            }
+            """.trimIndent(),
+        )
+
+        GradleRunner.create()
+            .withPluginClasspath()
+            .withProjectDir(projectDir)
+            .withArguments("verifyVersion")
+            .build()
+    }
+
     @Test fun `can run task`() {
         // Set up the test build
         settingsFile.writeText(

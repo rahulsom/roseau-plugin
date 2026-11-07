@@ -45,7 +45,7 @@ class RoseauPluginTest {
         assertThat(dependency).isNotNull()
         assertThat(dependency?.group).isEqualTo("io.github.alien-tools")
         assertThat(dependency?.name).isEqualTo("roseau-cli")
-        assertThat(dependency?.version).isEqualTo("0.6.0")
+        assertThat(dependency?.version).isEqualTo(System.getProperty("expectedRoseauVersion"))
     }
 
     @Test
@@ -55,7 +55,7 @@ class RoseauPluginTest {
 
         val extension = project.extensions.findByType(RoseauExtension::class.java)
         assertThat(extension).isNotNull()
-        assertThat(extension?.version?.get()).isEqualTo("0.6.0")
+        assertThat(extension?.version?.get()).isEqualTo(System.getProperty("expectedRoseauVersion"))
         assertThat(extension?.verbosity?.get()).isEqualTo(RoseauExtension.VerbosityLevel.NONE)
         assertThat(extension?.html?.get()).isTrue()
         assertThat(extension?.csv?.get()).isTrue()

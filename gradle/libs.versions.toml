@@ -2,10 +2,12 @@
 assertj = "3.27.7"
 gradlePublish = "2.2.1"
 nebulaRelease = "21.1.4"
+roseau = "0.6.0"
 testLogger = "4.0.0"
 
 [libraries]
 assertj = { module = "org.assertj:assertj-core", version.ref = "assertj" }
+roseau-cli = { module = "io.github.alien-tools:roseau-cli", version.ref = "roseau" }
 
 [plugins]
 gradlePublish = { id = "com.gradle.plugin-publish", version.ref = "gradlePublish" }

@@ -70,3 +70,18 @@ listOf("final", "candidate").forEach { taskName ->
 tasks.named("publishPlugins").configure {
     mustRunAfter("check")
 }
+
+// Package the catalog version so consuming builds do not need our version catalog.
+val roseauVersion = libs.roseau.cli.map { it.versionConstraint.requiredVersion }
+
+tasks.processResources {
+    val version = roseauVersion.get()
+    inputs.property("roseauVersion", version)
+    filesMatching("com/github/rahulsom/roseau.properties") {
+        expand("roseauVersion" to version)
+    }
+}
+
+tasks.withType<Test>().configureEach {
+    systemProperty("expectedRoseauVersion", roseauVersion.get())
+}

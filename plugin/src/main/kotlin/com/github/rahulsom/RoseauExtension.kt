@@ -4,17 +4,25 @@ import org.gradle.api.Project
 import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.ListProperty
 import org.gradle.api.provider.Property
+import java.util.Properties
 
 open class RoseauExtension(
     project: Project,
 ) {
     /**
-     * The version of Roseau to use. Defaults to 0.6.0
+     * The version of Roseau to use. Defaults to the version packaged with this plugin.
      */
     var version: Property<String> =
         project.objects
             .property(String::class.java)
-            .convention("0.6.0")
+            .convention(defaultRoseauVersion)
+
+    private companion object {
+        val defaultRoseauVersion: String =
+            Properties().apply {
+                RoseauExtension::class.java.getResourceAsStream("roseau.properties")!!.use { load(it) }
+            }.getProperty("version")
+    }
 
     enum class VerbosityLevel {
         NONE,

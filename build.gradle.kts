@@ -54,8 +54,6 @@ spotless {
                 ".gitattributes",
                 ".gitignore",
                 ".git-blame-ignore-revs",
-                "gradlew",
-                "gradlew.bat",
             ),
         )
         trimTrailingWhitespace()

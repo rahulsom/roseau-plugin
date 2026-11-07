@@ -74,3 +74,12 @@ roseau {
 ----
 
 <1> Verbosity levels are `NONE`, `SOME`, and `VERBOSE`.
+
+== Development
+
+Run `./gradlew spotlessApply` to format repository files and `./gradlew spotlessCheck` to check formatting.
+Formatting is also checked by `./gradlew check` and `./gradlew build`.
+Spotless uses ktlint for Kotlin and Gradle Kotlin scripts, Gson for JSON, and Prettier for YAML.
+Node.js and npm must be available for Prettier.
+TOML, properties, AsciiDoc, repository configuration, and wrapper scripts receive trailing-whitespace and final-newline checks.
+Generated build output, IDE metadata, caches, and binary files are excluded.

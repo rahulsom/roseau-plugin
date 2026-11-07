@@ -4,7 +4,7 @@ root = true
 charset = utf-8
 end_of_line = lf
 indent_style = space
-insert_final_newline = false
+insert_final_newline = true
 max_line_length = 160
 indent_size = 4
 tab_width = 4
@@ -16,5 +16,5 @@ ij_smart_tabs = false
 ij_visual_guides =
 ij_wrap_on_typing = false
 
-[*.yml]
+[*.{yml,yaml}]
 indent_size = 2

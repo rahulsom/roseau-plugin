@@ -30,7 +30,8 @@ class RoseauPluginFunctionalTest {
             """.trimIndent(),
         )
 
-        GradleRunner.create()
+        GradleRunner
+            .create()
             .withPluginClasspath()
             .withProjectDir(projectDir)
             .withArguments("verifyVersion")

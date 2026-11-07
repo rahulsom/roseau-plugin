@@ -13,35 +13,38 @@ repositories {
 
 testing {
     suites {
-        val test = named<JvmTestSuite>("test") {
-            useKotlinTest("2.4.0")
-        }
-
-        val functionalTest = register<JvmTestSuite>("functionalTest") {
-            useKotlinTest("2.4.0")
-
-            dependencies {
-                implementation(project())
+        val test =
+            named<JvmTestSuite>("test") {
+                useKotlinTest("2.4.0")
             }
 
-            targets {
-                all {
-                    // This test suite should run after the built-in test suite has run its tests
-                    testTask.configure { shouldRunAfter(test) }
+        val functionalTest =
+            register<JvmTestSuite>("functionalTest") {
+                useKotlinTest("2.4.0")
+
+                dependencies {
+                    implementation(project())
+                }
+
+                targets {
+                    all {
+                        // This test suite should run after the built-in test suite has run its tests
+                        testTask.configure { shouldRunAfter(test) }
+                    }
                 }
             }
-        }
     }
 }
 
 gradlePlugin {
-    val roseau = plugins.create("roseau") {
-        id = "io.github.rahulsom.roseau"
-        implementationClass = "com.github.rahulsom.RoseauPlugin"
-        displayName = "Roseau Plugin"
-        description = "Analyzes binary compatibility of Java libraries using Roseau."
-        tags.set(mutableSetOf("roseau", "binary-compatibility", "java"))
-    }
+    val roseau =
+        plugins.create("roseau") {
+            id = "io.github.rahulsom.roseau"
+            implementationClass = "com.github.rahulsom.RoseauPlugin"
+            displayName = "Roseau Plugin"
+            description = "Analyzes binary compatibility of Java libraries using Roseau."
+            tags.set(mutableSetOf("roseau", "binary-compatibility", "java"))
+        }
     website.set("https://github.com/rahulsom/roseau-plugin")
     vcsUrl.set("https://github.com/rahulsom/roseau-plugin.git")
 }

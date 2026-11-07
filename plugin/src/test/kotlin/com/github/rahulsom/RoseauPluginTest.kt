@@ -6,7 +6,6 @@ import org.gradle.testfixtures.ProjectBuilder
 import kotlin.test.Test
 
 class RoseauPluginTest {
-
     private fun createProject(): org.gradle.api.Project {
         val project = ProjectBuilder.builder().withName("nothing-java").build()
         project.group = "com.github.rahulsom"
@@ -219,7 +218,11 @@ class RoseauPluginTest {
         val task = project.tasks.getByName("roseau") as JavaExec
         executeDoFirst(task)
 
-        val configFile = project.layout.buildDirectory.get().asFile.resolve("reports/roseau/roseau.yaml")
+        val configFile =
+            project.layout.buildDirectory
+                .get()
+                .asFile
+                .resolve("reports/roseau/roseau.yaml")
         assertThat(task.args).contains("--config", configFile.toString())
         assertThat(configFile).exists()
         assertThat(configFile.readText())
@@ -249,7 +252,10 @@ class RoseauPluginTest {
 
         val extension = project.extensions.getByType(RoseauExtension::class.java)
         extension.excludeNames.set(listOf(".*\\$.*Converter"))
-        val userConfig = project.layout.projectDirectory.file("my-roseau.yaml").asFile
+        val userConfig =
+            project.layout.projectDirectory
+                .file("my-roseau.yaml")
+                .asFile
         userConfig.writeText("common: {}")
         extension.config.set(userConfig)
 
@@ -257,7 +263,11 @@ class RoseauPluginTest {
         executeDoFirst(task)
 
         assertThat(task.args).contains("--config", userConfig.toString())
-        val generated = project.layout.buildDirectory.get().asFile.resolve("reports/roseau/roseau.yaml")
+        val generated =
+            project.layout.buildDirectory
+                .get()
+                .asFile
+                .resolve("reports/roseau/roseau.yaml")
         assertThat(generated).doesNotExist()
     }
 
